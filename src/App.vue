@@ -2,22 +2,17 @@
   <el-row :gutter="12">
     <el-col :span="12">
       <el-card shadow="never">
-        <el-form
-          :model="form"
-          label-width="80px"
-        >
+        <el-form label-width="100px">
           <draggable
-            :list="list"
-            :disabled="!enabled"
-            item-key="name"
-            class="list-group"
-            ghost-class="ghost"
-            :move="checkMove"
-            @start="dragging = true"
-            @end="dragging = false"
+            :list="templateList"
+            item-key="type"
+            :group="{ name: 'group', pull: 'clone', put: false }"
           >
             <template #item="{ element }">
-              <custom-form-item />
+              <custom-form-item
+                :form-item-label="element.label"
+                :form-item-type="element.type"
+              />
             </template>
           </draggable>
         </el-form>
@@ -25,54 +20,53 @@
     </el-col>
     <el-col :span="12">
       <el-card shadow="never">
-        从不显示
+        <el-form label-width="100px">
+          <draggable
+            :list="resultList"
+            item-key="type"
+            :group="{ name: 'group' }"
+          >
+            <template #item="{ element }">
+              <custom-form-item
+                :form-item-label="element.label"
+                :form-item-type="element.type"
+              />
+            </template>
+          </draggable>
+        </el-form>
       </el-card>
     </el-col>
   </el-row>
 </template>
 
 <script>
-import draggable from "vuedraggable";
-import CustomFormItem from "./components/custom-form-item/index.vue";
+import draggable from 'vuedraggable';
+import CustomFormItem from './components/custom-form-item/index.vue';
 
-let id = 1;
 export default {
-  name: "Index",
-  display: "Simple",
-  order: 0,
+  name: 'Index',
+
   components: {
     CustomFormItem,
     draggable
   },
+
   data() {
     return {
-      enabled: true,
-      list: [
-        { name: "John", id: 0 },
-        { name: "Joao", id: 1 },
-        { name: "Jean", id: 2 }
+      templateList: [
+        {
+          type: 'Input',
+          label: '输入框名称'
+        },
+        {
+          type: 'Select',
+          label: '下拉框名称'
+        }
       ],
-      dragging: false,
-
-      form: {}
+      resultList: []
     };
   },
-  computed: {
-    draggingInfo() {
-      return this.dragging ? "under drag" : "";
-    }
-  },
-  methods: {
-    add: function() {
-      this.list.push({ name: "Juan " + id, id: id++ });
-    },
-    replace: function() {
-      this.list = [{ name: "Edgard", id: id++ }];
-    },
-    checkMove: function(e) {
-      window.console.log("Future index: " + e.draggedContext.futureIndex);
-    }
-  }
+
 };
 </script>
 

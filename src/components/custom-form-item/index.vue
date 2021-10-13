@@ -1,22 +1,40 @@
 <script>
-import { h, resolveComponent } from "vue";
+import { h, resolveComponent } from 'vue';
 
 export default {
-  name: "CustomFormItem",
+  name: 'CustomFormItem',
+
+  props: {
+    formItemType: {
+      type: String,
+      default: 'Input'
+    },
+
+    formItemLabel: {
+      type: String,
+      default: '表单字段'
+    }
+  },
 
   render() {
     const ElFormItem = resolveComponent('ElFormItem');
     const ElInput = resolveComponent('ElInput');
+    const ElSelect = resolveComponent('ElSelect');
+
+    const componentMapping = {
+      'Input': ElInput,
+      'Select': ElSelect
+    };
 
     return h(
         ElFormItem,
         {
-          label: '活动名称'
+          label: this.formItemLabel
         },
         [
-            h(ElInput, {})
+            h(componentMapping[this.formItemType], {})
         ]
-    )
+    );
   }
-}
+};
 </script>

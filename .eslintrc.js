@@ -8,5 +8,14 @@ module.exports = {
   rules: {
     // override/add rules settings here, such as:
     // 'vue/no-unused-vars': 'error'
+    'semi': [2, 'always'], // 语句末尾有分号
+    'semi-spacing': [2, { // 分号后有空格
+      'before': false,
+      'after': true
+    }],
+    'quotes': [2, 'single', { // 单引号
+      'avoidEscape': true,
+      'allowTemplateLiterals': true
+    }]
   }
-}
+};
